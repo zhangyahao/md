@@ -3,3 +3,6 @@ hostname new-hostname
 
 2.修改 /etc/sysconfig/network  配置文件，以便下次重启的时，使用新的主机名。
 打开 /etc/sysconfig/network 文件，修改 HOSTNAME=new-hostname.domainname。
+
+3.修改hostname后  必须重启网卡
+重启网卡  service network restart
