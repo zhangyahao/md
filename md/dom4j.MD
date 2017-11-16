@@ -1,0 +1,61 @@
+1. dom4j中，获得Document对象的方式有三种
+   1. 读取xml文件，获得Document对象
+   ```$xslt
+   SAXReader reader = new SAXReader();
+   Document document = reader.read(new File("input.xml"));
+   ```
+   2. 解析xml形式的文本，得到Document对象，将字符串转换为
+   ```$xslt
+    Document String text = "<members></members>";
+    Document document = DocumentHelper.parseText(text);
+    ```
+    3. 主动创建Document对象（直接创建）
+    ```$xslt
+    Document document = DocumentHelper.createDocument(); //创建根节点
+    Element root = document.addElement("members");
+    ```
+2. 节点对象
+    1. 获取文档的根节点：
+    ```$xslt
+    Element root = document.getRootElement();
+    ```
+    2. 取得某个节点的子节点
+    ```$xslt
+    Element element=node.element(“书名");
+    ```
+    3. 取得节点的文本
+    ```$xslt
+    String text=node.getText();
+    ```
+    4. 取得某节点下所有名为“member“的子节点，并进行遍历
+    ```$xslt
+    List nodes = rootElm.elements("member");
+    for (Iterator it = nodes.iterator(); it.hasNext();) {     
+        Element elm = (Element) it.next();   
+         // do something 
+    }
+    ```
+    5. 对某节点下的所有子节点进行遍历（遍历方法2）
+    ```$xslt
+    for(Iterator it=root.elementIterator();it.hasNext();){       
+        Element element = (Element) it.next();       
+        // do something   
+    }
+    ```
+    6. 在某节点下添加子节点
+    ```$xslt
+    Element ageElm = newMemberElm.addElement("age");
+    ```
+    7. 设置节点文本
+    ```$xslt
+    element.setText("29");
+    ```
+    8. 删除某节点
+    ```$xslt
+    //childElm是待删除的节点,parentElm是其父节点
+    parentElm.remove(childElm);
+    ```
+    9. 添加一个CDATA（前面有说明）节点
+    ```$xslt
+    Element contentElm =infoElm.addElement("content");contentElm.addCDATA(diary.getContent());
+    ```
