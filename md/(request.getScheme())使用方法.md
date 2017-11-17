@@ -9,4 +9,3 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  request.getContextPath()可以返回当前页面所在的应用的名字;
  
  
- 
