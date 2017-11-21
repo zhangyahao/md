@@ -60,6 +60,7 @@
     在CDATA内部的所有内容都会被解析器忽略。<br>
     如果文本包含了很多的"<"字符和"&"字符——就象程序代码一样，那么最好把他们都放到CDATA部件中。
     一个 CDATA 部件以"<![CDATA[" 标记开始，以"]]>"标记结束:
+    **CDATA中不能再包含CDATA**
     ```$xslt
     Element contentElm =infoElm.addElement("content");
     contentElm.addCDATA(diary.getContent());
