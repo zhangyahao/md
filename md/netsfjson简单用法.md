@@ -12,3 +12,4 @@
  User user = new User(12L, "JSON", "json");
  System.out.println(JSONObject.fromObject(user, config).toString());
  ```
+ [用法](http://blog.csdn.net/itlwc/article/details/38442667)
