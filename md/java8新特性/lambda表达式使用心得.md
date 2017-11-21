@@ -31,7 +31,7 @@ list.forEach((n)->System.out.Println(n));
 
 或者
 ```$xslt
-list.forEach(()->System.out::Println);
+list.forEach(System.out::println);
 ```
 
 在java8中加入了stream 它将我们将要处理数据转变为流的方式处理然后对流进行处理<br>
@@ -41,7 +41,7 @@ Stream<String> str=Stream.of("sda","dad","d","dddd");
 ```
 如果调用Stream.generator可以生成一个无限长的Stream。
 
-那么我门对于集合或数组的处理就可以更加的简单 如下所示：
+那么我们对于集合或数组的处理就可以更加的简单 如下所示：
 ```$xslt
 public static void main(args[]){
     List languages = Arrays.asList("Java", "Scala", "C++", "Haskell", "Lisp");
