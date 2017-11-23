@@ -43,7 +43,7 @@ Stream<String> str=Stream.of("sda","dad","d","dddd");
 
 那么我们对于集合或数组的处理就可以更加的简单 如下所示：
 ```$xslt
-public static void main(args[]){
+  public static void main(String[] args){
     List languages = Arrays.asList("Java", "Scala", "C++", "Haskell", "Lisp");
  
     System.out.println("Languages which starts with J :");
