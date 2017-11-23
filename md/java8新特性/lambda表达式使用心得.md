@@ -76,19 +76,19 @@ public static void filter(List names, Predicate condition) {
 Predicate类 Predicate.test  就相当于例子  当该类型的数值或者说样式 <br>
 要求 和流中的比较 返回值是布尔类型
 ```$xslt
-public class Test {
-    private static List languages = Arrays.asList("Java", "Scala", "C++", "Haskell", "Lisp");
-
-    public static void filter(List names, Predicate predicate) {
-        names.stream().filter((name) -> (predicate.test(name))).forEach((name) -> {
-            System.out.println(name + "");
-        });
+    public class Test {
+        private static List languages = Arrays.asList("Java", "Scala", "C++", "Haskell", "Lisp");
+    
+        public static void filter(List names, Predicate predicate) {
+            names.stream().filter((name) -> (predicate.test(name))).forEach((name) -> {
+                System.out.println(name + "");
+            });
+        }
+        public static void main(String[] args) {
+            //创建Predicate实例
+            Predicate<String> str = (n) -> n.startsWith("J");
+            filter(languages, str);
+        }
+    
     }
-    public static void main(String[] args) {
-        //创建Predicate实例
-        Predicate<String> str = (n) -> n.startsWith("J");
-        filter(languages, str);
-    }
-
-}
 ```
