@@ -95,21 +95,7 @@ spring中 shiro logout 配置方式
                 /** = authc
                 # more URL-to-FilterChain definitions here
             </value>
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
+
 注：anon，authcBasic，auchc，user是认证过滤器，perms，roles，ssl，rest，port是授权过滤器
 
 最终 各种参数配置详解 
