@@ -55,7 +55,7 @@
     //childElm是待删除的节点,parentElm是其父节点
     parentElm.remove(childElm);
     ```
-    9. 添加一个CDATA（前面有说明）节点
+    9. 添加一个CDATA节点
     CDATA部件<br>
     在CDATA内部的所有内容都会被解析器忽略。<br>
     如果文本包含了很多的"<"字符和"&"字符——就象程序代码一样，那么最好把他们都放到CDATA部件中。
