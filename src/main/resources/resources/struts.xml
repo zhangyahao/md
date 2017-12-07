@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN" "http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+	<!-- 指定Web应用的默认编码集,相当于调用HttpServletRequest的setCharacterEncoding方法 --> 
+	<constant name="struts.i18n.encoding" value="UTF-8" /> 
+	<!--Struts2后缀，多个后缀之间以英文逗号（,）隔开-->
+	<constant name="struts.action.extension" value="action,do,html" /> 
+	<constant name="struts.action.excludePattern" value="/druid/.*,/dwr/.*,/dwr/test/.*,/assets/.*"/> 
+	<!-- 当struts的配置文件修改后,系统是否自动重新加载该文件,默认值为false(生产环境下使用),开发阶段最好打开--> 
+	<constant name="struts.configuration.xml.reload" value="true" /> 
+	<!-- 设置浏览器是否缓存静态内容,默认值为true(生产环境下使用),开发阶段最好关闭 --> 
+	<constant name="struts.serve.static.browserCache" value="false" /> 
+	<!-- 开发模式下使用,这样可以打印出更详细的错误信息 --> 
+	<constant name="struts.devMode" value="true" /> 
+	<!-- 动态方法调用，默认false -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+	<!-- 文件上传大小限制，默认值为2M（2097152） -->
+	<constant name="struts.multipart.maxSize" value="2097152000"></constant>
+	<!-- 上传文件时的临时存储路径 -->
+	<constant name="struts.multipart.saveDir" value="/temp"></constant>
+	
+	<package name="app-default" extends="struts-default">
+		
+		<global-results>
+			<result name="error">/error.html</result>
+			<result name="404">/404.html</result>
+			<result name="500">/500.html</result>
+			<result name="login" type="redirect">/home/login.html</result>
+			<result name="register" type="redirect">/register.html</result>
+			<result name="home" type="redirect">/register.html</result>
+		</global-results>
+		<global-allowed-methods>regex:.*</global-allowed-methods>
+	</package>
+	
+	
+</struts>    

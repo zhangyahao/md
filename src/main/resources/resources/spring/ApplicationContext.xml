@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.2.xsd"
+	xmlns:tx="http://www.springframework.org/schema/tx">
+
+	<!-- 启用注解 -->
+	<context:annotation-config  />
+	
+	<!-- 启动组件扫描，排除@Controller组件 -->
+	<context:component-scan base-package="com.itshidu" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<context:property-placeholder location="classpath:druid.properties" ignore-unresolvable="true"/>
+
+	<!-- 验证码生成器 -->
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+	    <property name="config">
+	        <bean class="com.google.code.kaptcha.util.Config">
+	            <constructor-arg>
+	                <props>
+	                    <prop key="kaptcha.border">no</prop>
+	                    <prop key="kaptcha.border.color">105,179,90</prop>
+	                    <prop key="kaptcha.textproducer.font.color">red</prop>
+	                    <prop key="kaptcha.image.width">250</prop>
+	                    <prop key="kaptcha.textproducer.font.size">70</prop>
+	                    <prop key="kaptcha.image.height">90</prop>
+	                    <prop key="kaptcha.session.key">code</prop>
+	                    <prop key="kaptcha.textproducer.char.length">6</prop>
+	                    <prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+	                    <prop key="kaptcha.textproducer.char.string">123456789abcdefghijklmnpqrstuvwxyz</prop>
+	                </props>
+	            </constructor-arg>
+	        </bean>
+	    </property>
+	</bean>
+	
+	
+	<!-- JavaMail相关配置 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl" >
+		<property name="host" value="smtp.mxhichina.com"></property>
+		<property name="username" value="demo@itshidu.com"></property>
+		<property name="password" value="Demo1234"></property>
+		<property name="protocol" value="smtp"></property>
+		<property name="defaultEncoding" value="utf-8"></property>
+		<property name="javaMailProperties">  
+		    <props>
+		        <prop key="mail.smtp.auth">true</prop>
+		        <prop key="mail.smtp.from">demo@itshidu.com</prop>
+		        <prop key="mail.debug">false</prop>
+		    </props>
+		</property>
+	</bean>
+	<!-- 用于异步发送邮件的线程池 -->
+	<bean id="mailTaskExecutor"
+	       class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+	       <!-- 核心线程数 -->
+	       <property name="corePoolSize" value="10" />
+	       <!-- 最大线程数 -->
+	       <property name="maxPoolSize" value="50" />
+	       <!-- 最大队列数 -->
+	       <property name="queueCapacity" value="10000" />
+	       <!-- 线程池维护线程所允许的空闲时间 -->
+	       <property name="keepAliveSeconds" value="60" />
+	</bean>
+	<!-- 用户处理IM通信时的一些操作，比如数据持久化 -->
+	<!-- <bean id="imTaskExecutor"
+	       class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+	       <property name="corePoolSize" value="10" />
+	       <property name="maxPoolSize" value="50" />
+	       <property name="queueCapacity" value="10000" />
+	       <property name="keepAliveSeconds" value="60" />
+	</bean> -->
+	
+	<!-- Velocity引擎，用于加载模板 -->
+	<!-- <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">  
+	    <property name="velocityProperties">  
+	        <props>
+	            <prop key="resource.loader">file</prop>
+	            <prop key="file.resource.loader.path">.</prop>
+	            <prop key="file.resource.loader.class">
+	                org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+	            </prop>
+	            <prop key="input.encoding">UTF-8</prop>
+	            <prop key="output.encoding">UTF-8</prop>
+	        </props>
+	    </property>
+	</bean> -->
+
+	<!-- 配置_Druid和Spring的关联监控 -->
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	</bean>
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.itshidu.jeelite.app.service.*</value>
+			</list>
+		</property>
+	</bean>
+	<aop:config proxy-target-class="true">
+    	<aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
+	
+	
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		destroy-method="close">
+		<!-- 数据库基本信息配置 -->
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="filters" value="${filters}" />
+		<!-- 最大并发连接数 -->
+		<property name="maxActive" value="${maxActive}" />
+		<!-- 初始化连接数量 -->
+		<property name="initialSize" value="${initialSize}" />
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="${maxWait}" />
+		<!-- 最小空闲连接数 -->
+		<property name="minIdle" value="${minIdle}" />
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
+		<property name="validationQuery" value="${validationQuery}" />
+		<property name="testWhileIdle" value="${testWhileIdle}" />
+		<property name="testOnBorrow" value="${testOnBorrow}" />
+		<property name="testOnReturn" value="${testOnReturn}" />
+		<property name="maxOpenPreparedStatements" value="${maxOpenPreparedStatements}" />
+		<!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandoned" value="${removeAbandoned}" />
+		<!-- 1800秒，也就是30分钟 -->
+		<property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="${logAbandoned}" />
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+		<property name="packagesToScan" value="com.**.entity."></property>
+		<property name="mappingLocations">
+			<value>classpath:com/itshidu/**/*.hbm.xml</value>
+		</property>
+	</bean>
+
+	
+
+	<!-- ========================== 声明式事务 =========================== -->
+	<!-- 开启AOP监听 只对当前配置文件有效 -->
+	<aop:aspectj-autoproxy expose-proxy="true" />
+
+	<!-- 开启注解事务,只对当前配置文件有效 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="register*" propagation="REQUIRED" />
+			<!--从hibernate4开始，必须开启事务 否则 getCurrentSession()获取不到 -->
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="list*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config expose-proxy="true">
+		<aop:pointcut id="txPointcut"
+			expression="execution(* com.itshidu..service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
+	</aop:config>
+
+
+
+	<import resource="spring-shiro.xml"/>
+	<import resource="spring-redis.xml"/>
+	
+	
+</beans>

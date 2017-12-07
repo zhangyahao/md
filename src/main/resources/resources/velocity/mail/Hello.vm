@@ -1,0 +1,22 @@
+<html>
+<head>
+<style type="text/css">
+h4{
+    color:red;
+    background:#efefef;
+}
+</style>
+</head>
+<body>
+<h1>欢迎：${user} </h1>
+<p><p>
+<i>${content}</i>
+<br><br>
+接下来为您介绍一下三国中的五虎上将吧：<br>
+
+#foreach ( $name in $sanguo)
+<h3>$name</h3>
+#end
+
+</body>
+</html>
