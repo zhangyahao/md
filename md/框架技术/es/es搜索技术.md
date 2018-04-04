@@ -31,15 +31,15 @@
                 2.  ik_max_word：会将文本做最细粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、中华人民、
                 中华、华人、人民共和国、人民、人、民、共和国、共和、和、国国、国歌」，会穷尽各种可能的组合； 
                     ik_smart：会将文本做最粗粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、国歌」；
-     8.   
+     8.   示例 
        
-    ```
-    Client client = this.esu.getClient();
-    XContentBuilder mapping = null;
-    mapping = jsonBuilder().startObject()
+                 ```
+                 Client client = this.esu.getClient();
+                  XContentBuilder mapping = null;
+                   mapping = jsonBuilder().startObject()
     					  .startObject("properties")
     					           .startObject("mzName").field("type", "string").field("index_analyzer","ik").field("search_analyzer","ik_smart").field("store",true).endObject()
-    PutMappingRequest mappingRequest = Requests.putMappingRequest("businesshall").type("yyt").source(mapping);
-     		//创建索引
-     client.admin().indices().putMapping(mappingRequest).actionGet();    					           
-    ```
+                   PutMappingRequest mappingRequest = Requests.putMappingRequest("businesshall").type("yyt").source(mapping);
+     		        //创建索引
+                    client.admin().indices().putMapping(mappingRequest).actionGet();    					           
+                      ```
