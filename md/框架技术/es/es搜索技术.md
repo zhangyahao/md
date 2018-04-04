@@ -1,0 +1,45 @@
+#####ElasticSearch（luncene）
+
+1. 简介
+    是一种无模式的搜索引擎 
+    1. 官方定义为映射结构
+    2. 个人认为类似于数据库 将数据建立index放入其中
+    
+2. 依赖  org.ElasticSearch
+
+3.  核心类型
+    1.  string：字符串 
+    2.  number：数字
+    3.  date：日期
+    4.  boolean：布尔
+    5.  binary：二进制
+    6.  range：范围值 `integer_range, float_range, long_range, double_range, date_range`
+    
+4.  公共属性
+     1.  index_name:定义属性存储的索引的字段名称
+     2.  index：属性有 analyzed和no.如果是字符串字段还可以设置not_analyzed.
+          anaylzed是可被搜索到，no为否.**如果是字符串设置为 not_analyzed则该字段
+          将直接编入索引，搜索该字段就必须全部匹配**
+     3.  boost：权重 默认为1 越大该字段的权重越大.
+     4.  nullvalue ：该字段不是索引的一部分.写入索引后，默认忽略.
+     5.  include_in_all：此属性指定该字段是否应包括在_all字段中。默认情况下，如果使用_all字段，所有字段都会包括
+            当**_index设置为no，此属性失效_**
+     6.  store：布尔值 也可以是 yes或者no 指定该字段的原始值是否写入索引.默认是no.如果是no 结果中将不返回该字段
+     7.  ik：中文分词器  是第三方的插件 同时还有 mmsegf分词器和paoding分词器.已移植到es中.
+                1.  安装ik分词器到elasticsearch很简单，它有个插件目录analysis-ik，和一个配置目录ik, 
+                分别拷贝到plugins和conf目录就可以了。当然你可以使用elasticsearch的plugin命令去安装，这个过程可能会有些麻烦。
+                2.  ik_max_word：会将文本做最细粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、中华人民、
+                中华、华人、人民共和国、人民、人、民、共和国、共和、和、国国、国歌」，会穷尽各种可能的组合； 
+                    ik_smart：会将文本做最粗粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、国歌」；
+     8.   
+       
+    ```
+    Client client = this.esu.getClient();
+    XContentBuilder mapping = null;
+    mapping = jsonBuilder().startObject()
+    					  .startObject("properties")
+    					           .startObject("mzName").field("type", "string").field("index_analyzer","ik").field("search_analyzer","ik_smart").field("store",true).endObject()
+    PutMappingRequest mappingRequest = Requests.putMappingRequest("businesshall").type("yyt").source(mapping);
+     		//创建索引
+     client.admin().indices().putMapping(mappingRequest).actionGet();    					           
+    ```
