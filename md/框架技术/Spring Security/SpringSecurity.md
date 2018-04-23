@@ -152,7 +152,7 @@
 
         ```
     10. 对不同的url 进行配置
-       ```aidl
+        ```aidl
         @EnableWebSecurity
         public class MultiHttpSecurityConfig {
             @Autowired
@@ -163,9 +163,9 @@
                         .withUser("admin").password("password").roles("USER", "ADMIN");
             }
         
-            @Configuration
-            @Order(1)  // 优先度
-            public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+                @Configuration
+             @Order(1)  // 优先度
+                public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 protected void configure(HttpSecurity http) throws Exception {
                     http
                         .antMatcher("/api/**")  // 3
@@ -187,12 +187,10 @@
                             .and()
                         .formLogin();
                 }
-            }
-        }
+             }
+         }
 
-        ```
-
-
+         ```
     11. 对于方法安全的支持  (个人感觉意义不大)
     
             
