@@ -7,4 +7,6 @@
 2. 注入Bean注解
     1. @Autowired  直接注入
     2. @Resource  默认按名称装配，当找不到与名称匹配的bean才会按类型装配。
+3.  配置bean
+    1. @Configuration：在方法上直接将bean交给spring 放弃使用配置文件    
     
