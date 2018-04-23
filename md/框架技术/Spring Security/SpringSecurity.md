@@ -1,4 +1,4 @@
-### spring 的安全框架  java配置
+### spring 的安全框架  全java配置
 1.  作用
     1.  权限认证 类似shiro 
     
