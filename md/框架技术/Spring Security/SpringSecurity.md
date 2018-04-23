@@ -176,7 +176,7 @@
                 }
             }
         
-            @Configuration // 没有有限的情况下默认最后
+            @Configuration // 没有优先度的情况下默认最后
             public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
         
                 @Override
@@ -193,6 +193,7 @@
         ```
 
 
-    11. 对于方法安全的支持
+    11. 对于方法安全的支持  (个人感觉意义不大)
+    
             
 
