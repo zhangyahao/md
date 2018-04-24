@@ -35,6 +35,8 @@
      8.   示例 
        
                  ```
+                 //mysqldao 中查询所有的es 的index的信息
+                 mysqldao  mysqldao =new mysqldao();
                  Client client = this.esu.getClient();
                   XContentBuilder mapping = null;
                    mapping = jsonBuilder().startObject()
