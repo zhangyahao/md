@@ -48,38 +48,39 @@
                       ```
                       
      9.   查询                
-           ``
-           public HashSet<String> getB(){
-           		HashSet<String> zhiboIdSet = null;
-           		Client client = new Client();
-           		//搜索时的字段
-           		QueryBuilder qb = QueryBuilders.queryString("*").field("name");
-           		//搜索的具体索引  b  类型yyt
-           		SearchResponse response = client.prepareSearch("b").setTypes("yyt")
-           		                            //搜索的关键字
-           									.setQuery(qb)
-           									//每次搜索的范围
-           									.setFrom(0).setSize(10000)
-           									//查询匹配的字段 第一参数为包含  第二个为排除
-           								    .setFetchSource("mzName", null)
-           								    //设置最小的匹配度
-           								    .minimumShouldMatch("100%")
-           								    //设置过滤
-           								    .setPostFilter(FilterBuilders.rangeFilter("age").from(12).to(18))
-           								    //查询全部
-           								    .setExplain(true)
-           								    .execute().actionGet(); 
-           		//单次获取的结果
-           		SearchHits hits = response.getHits(); 
-           		//遍历结果
-           		if(hits.getTotalHits()>0){
-           			zhiboIdSet = new HashSet<String>();
-           			for(SearchHit seh : hits.getHits()){
-           				zhiboIdSet.add(seh.getId());
-           			}
-           		}
-           		response = null;
-           		hits = null;
-           		return zhiboIdSet;
-           	}
-           ``
+          ```aidl
+                  public HashSet<String> getB(){
+                       		HashSet<String> zhiboIdSet = null;
+                       		Client client = new Client();
+                       		//搜索时的字段
+                       		QueryBuilder qb = QueryBuilders.queryString("*").field("name");
+                       		//搜索的具体索引  b  类型yyt
+                       		SearchResponse response = client.prepareSearch("b").setTypes("yyt")
+                       		                            //搜索的关键字
+                       									.setQuery(qb)
+                       									//每次搜索的范围
+                       									.setFrom(0).setSize(10000)
+                       									//查询匹配的字段 第一参数为包含  第二个为排除
+                       								    .setFetchSource("mzName", null)
+                       								    //设置最小的匹配度
+                       								    .minimumShouldMatch("100%")
+                       								    //设置过滤
+                       								    .setPostFilter(FilterBuilders.rangeFilter("age").from(12).to(18))
+                       								    //查询全部
+                       								    .setExplain(true)
+                       								    .execute().actionGet(); 
+                       		//单次获取的结果
+                       		SearchHits hits = response.getHits(); 
+                       		//遍历结果
+                       		if(hits.getTotalHits()>0){
+                       			zhiboIdSet = new HashSet<String>();
+                       			for(SearchHit seh : hits.getHits()){
+                       				zhiboIdSet.add(seh.getId());
+                       			}
+                       		}
+                       		response = null;
+                       		hits = null;
+                       		return zhiboIdSet;
+                       	}
+
+         ```
