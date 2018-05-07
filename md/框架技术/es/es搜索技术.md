@@ -47,7 +47,8 @@
                     client.admin().indices().putMapping(mappingRequest).actionGet();    					           
                       ```
                       
-     9.   查询                
+     9.   查询   
+            [聚合索引使用方法](https://blog.csdn.net/carlislelee/article/details/52598022)             
           ```aidl
                   public HashSet<String> getB(){
                        		HashSet<String> zhiboIdSet = null;
