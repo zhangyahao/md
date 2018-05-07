@@ -62,6 +62,8 @@
                        									.setFrom(0).setSize(10000)
                        									//查询匹配的字段 第一参数为包含  第二个为排除
                        								    .setFetchSource("mzName", null)
+             								            //使用min聚合查询某个字段上最小的值。
+             								            .addAggregation(AggregationBuilders.min("min").field("age"))
                        								    //设置最小的匹配度
                        								    .minimumShouldMatch("100%")
                        								    //设置过滤
