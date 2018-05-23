@@ -73,7 +73,8 @@
    								                        .addSort(new FieldSortBuilder("id").order(SortOrder.DESC).missing("_last"))
 	                                                     //或者这样排序
 	                                                    .addSort("id",SortOrder.DESC)
-                              
+                                                          //或者
+                                                        .addSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))    
                        								    //查询全部
                        								    .setExplain(true)
                        								    .execute().actionGet(); 
