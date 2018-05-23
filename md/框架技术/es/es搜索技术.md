@@ -69,6 +69,8 @@
                        								    .minimumShouldMatch("100%")
                        								    //设置过滤
                        								    .setPostFilter(FilterBuilders.rangeFilter("age").from(12).to(18))
+             								            //排序   .missing("_last"))不能应用于布尔值的索引
+   								                        . .addSort(new FieldSortBuilder("id").order(SortOrder.DESC).missing("_last"))
                        								    //查询全部
                        								    .setExplain(true)
                        								    .execute().actionGet(); 
