@@ -10,7 +10,7 @@
 
 3.  核心类型
     1.  string：字符串 
-    2.  number：数字
+    2.  number：integer,float数字
     3.  date：日期
     4.  boolean：布尔
     5.  binary：二进制
@@ -54,7 +54,8 @@
                        		HashSet<String> zhiboIdSet = null;
                        		Client client = new Client();
                        		//搜索时的字段
-                       		QueryBuilder qb = QueryBuilders.queryString("*").field("name");
+                       		QueryBuilder qb = QueryBuilders.queryString("*").field("name") .minimumShouldMatch("100%");  //设置最小的匹配度
+                                                                                                                 								   
                        		//搜索的具体索引  b  类型yyt
                        		SearchResponse response = client.prepareSearch("b").setTypes("yyt")
                        		                            //搜索的关键字
