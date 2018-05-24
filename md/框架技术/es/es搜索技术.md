@@ -10,7 +10,7 @@
 
 3.  核心类型
     1.  string：字符串 
-    2.  number：integer,float数字
+    2.  number：byte, short, integer, long数字
     3.  date：日期
     4.  boolean：布尔
     5.  binary：二进制
