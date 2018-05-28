@@ -49,7 +49,7 @@
                       ```
                       
      9.   查询   
-            [聚合索引使用方法](https://blog.csdn.net/carlislelee/article/details/52598022)             
+            [聚合索引使用方法](https://elasticsearch.cn/article/102)             
           ```aidl
                   public HashSet<String> getB(){
                        		HashSet<String> zhiboIdSet = null;
