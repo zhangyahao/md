@@ -34,19 +34,19 @@
                     ik_smart：会将文本做最粗粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、国歌」；
      8.   multi-field： 多域类型允许你对同一个值以映射的方式定义成多个基本类型  
      8.   示例 
-       [索引建立方式](https://blog.csdn.net/napoay/article/details/51707023)
-                 ```
-                        //mysqldao 中查询所有的es 的index的信息
-                        mysqldao  mysqldao =new mysqldao();
-                        Client client = this.esu.getClient();
-                         XContentBuilder mapping = null;
-                          mapping = jsonBuilder().startObject()
-    			        		  .startObject("properties")
-    			        		           .startObject("mzName").field("type", "string").field("index_analyzer","ik").field("search_analyzer","ik_smart").field("store",true).endObject()
-                          PutMappingRequest mappingRequest = Requests.putMappingRequest("businesshall").type("yyt").source(mapping);
-     		               //创建索引
-                           client.admin().indices().putMapping(mappingRequest).actionGet();    					           
-                 ```
+            [索引建立方式](https://blog.csdn.net/napoay/article/details/51707023)
+            ```
+                //mysqldao 中查询所有的es 的index的信息
+                                        mysqldao  mysqldao =new mysqldao();
+                                        Client client = this.esu.getClient();
+                                        XContentBuilder mapping = null;
+                                        mapping = jsonBuilder().startObject()
+                    			        		  .startObject("properties")
+                    			        		           .startObject("mzName").field("type", "string").field("index_analyzer","ik").field("search_analyzer","ik_smart").field("store",true).endObject()
+                                          PutMappingRequest mappingRequest = Requests.putMappingRequest("businesshall").type("yyt").source(mapping);
+                     		               //创建索引
+                                           client.admin().indices().putMapping(mappingRequest).actionGet();    
+           ```
                       
      9.   查询   
             [聚合索引使用方法](https://elasticsearch.cn/article/102)             
