@@ -56,7 +56,22 @@
                        		Client client = new Client();
                        		//搜索时的字段
                        		QueryBuilder qb = QueryBuilders.queryString("*").field("name") .minimumShouldMatch("100%");  //设置最小的匹配度
-                                                                                                                 								   
+                            // boolQuery 搜索
+                            BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();  
+                                  //should相当于  或 可以是多条
+                                      boolQuery.should(QueryBuilders.termQuery("a", a));                                                                   								   
+                                      boolQuery.should(QueryBuilders.termQuery("a", b));                                                                   								   
+                                      boolQuery.should(QueryBuilders.termQuery("a", c));                                                                   								   
+                                  //设置包含其中的几条
+                                      //最少包含的条数
+                                       boolQuery.minimumNumberShouldMatch(2);
+                                     //must  必须  相当于 and
+                                          boolQuery.must(QueryBuilders.termQuery("a", a));
+                                          boolQuery.must(QueryBuilders.termQuery("a", b));
+                                          boolQuery.must(QueryBuilders.termQuery("a", c));
+                                          //不包含
+                                          boolQuery.mustNot(QueryBuilders.termQuery("a", c));
+                                  QueryBuilder qb =    boolQuery;     
                        		//搜索的具体索引  b  类型yyt
                        		SearchResponse response = client.prepareSearch("b").setTypes("yyt")
                        		                            //搜索的关键字
@@ -82,16 +97,19 @@
                        								    .execute().actionGet(); 
                        		//单次获取的结果
                        		SearchHits hits = response.getHits(); 
+             		        CommonSearchResult csr = null;
                        		//遍历结果
                        		if(hits.getTotalHits()>0){
-                       			zhiboIdSet = new HashSet<String>();
-                       			for(SearchHit seh : hits.getHits()){
-                       				zhiboIdSet.add(seh.getId());
-                       			}
-                       		}
+             		             csr = new CommonSearchResult();
+                       			 csr.setTotalNum((int) hits.getTotalHits());
+                                            this.setResult(csr, hits, name);
+                       		}else{
+             		            csr = new CommonSearchResult();
+                                csr.setTotalNum(0);
+             		         }
                        		response = null;
                        		hits = null;
-                       		return zhiboIdSet;
+                       		return csr;
                        	}
 
          ```
