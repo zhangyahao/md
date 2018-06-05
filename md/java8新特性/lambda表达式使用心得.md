@@ -3,14 +3,16 @@
 <br>
 <br>
 一. 对于匿名内部类的简化写法以多线程为例：
-```$xslt
-new Thread(()->System.out.Println("")).start();
-```
-如果需要各种逻辑分析
-```$xslt
-new Thread(()->{
-// 逻辑代码写到这里
-}).start();
+        ```
+         
+         new Thread(()->System.out.Println("")).start();
+        
+
+        如果需要各种逻辑分析
+           new Thread(()->{
+        // 逻辑代码写到这里
+            }).start();
+            
 ```
 
 
