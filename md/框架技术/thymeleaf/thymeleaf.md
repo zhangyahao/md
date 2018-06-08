@@ -109,7 +109,7 @@
 
         ```
 6.  语法 <br>
-    就是java方法
+    就是java方法   调用 ${}
     ```aidl
          #dates: java.util的实用方法。对象:日期格式、组件提取等.
          #calendars: 类似于#日期,但对于java.util。日历对象
