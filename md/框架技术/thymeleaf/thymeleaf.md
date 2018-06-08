@@ -46,7 +46,6 @@
     
        
 5. 语法介绍    
-
     1. 变量表达式<br>
         类似于el表达式,可以使用 `$`来表示属性
         ```$xslt
@@ -64,23 +63,31 @@
         ```
     3. URL表达式 <br>   
         url在其中是用`@`来表示的，修饰url时必须使用标签***`th:href，th:src`***
-        绝对路径
-        ```$xslt
-        <a href="details.html" 
-           th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">view</a>
-        ```
-        相对路径  要以 /开头
-        ```$xslt
-        <a href="details.html" 
-                   th:href="@{/order/details(orderId=${o.id})}">view</a>
-
-        ```
-        
+        1.  绝对路径 也可一放其他的链接地址 `http，https`，必须指定协议名
+              ```$xslt
+              <a href="details.html" 
+                 th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">view</a>
+              ```
+        2.  上下文路径 要以 /开头  
+               ```$xslt
+                   比如路径为 http://localhost:8080/myapp
+                   <a href="/billing-app/showDetails.html">
+               ```
+        3.  添加参数
+            ```aidl
+                <a th:href="@{/order/details(id=3)}">
+            ```
+            上面示例代码，最终将输出为:
+            ```aidl
+                <a href="/order/details?id=3">
+            ```
+            也就是说括号内的参数将会和url拼接转义
+            
     4. 国际化<br> 
         可以改变页面语言 需要引入配置文件<br> 
         [实现方式](https://blog.csdn.net/u010714901/article/details/51581424)
            
-    5. 定义模板
+    5. 定义模板  (待修改 好像不对)
         在Thymeleaf 中，我们可以使用`_**th:fragment**_`属性来定义一个模板。
         ```$xslt
         <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
@@ -101,3 +108,43 @@
         </body>
 
         ```
+6.  语法
+    ```aidl
+         #dates: java.util的实用方法。对象:日期格式、组件提取等.
+         #calendars: 类似于#日期,但对于java.util。日历对象
+         #numbers: 格式化数字对象的实用方法。
+         #strings:字符串对象的实用方法:包含startsWith,将/附加等。
+         #objects: 实用方法的对象。
+         #bools: 布尔评价的实用方法。
+         #arrays: 数组的实用方法。
+         #lists: list集合。
+         #sets:set集合。
+         #maps: map集合。
+         #aggregates: 实用程序方法用于创建聚集在数组或集合.
+         #messages: 实用程序方法获取外部信息内部变量表达式,以同样的方式,因为他们将获得使用# {…}语法
+         #ids: 实用程序方法来处理可能重复的id属性(例如,由于迭代)。
+         #httpServletRequest:用于web应用中获取request请求的参数
+         #session:用于web应用中获取session的参数
+    ```
+    
+7. 常用属性
+    ```aidl
+    h:action      表单提交的地址    　　　       <form action="subscribe.html" th:action="@{/subscribe}">
+    th:each        属性赋值    　　　　　　　   　 <tr th:each="user,userStat:${users}">
+    th:field       常用于表单字段绑定             <input type="text" value="" th:field="*{username}"></input>
+    th:href        链接地址    　　　　　　　    　<a th:href="@{/login}" th:unless=${session.user != null}>Login</a> />
+    th:id    　　   替换id    　　　       　     <input th:id="'xxx' + ${collect.id}"/>
+    th:if          判断条件    　　　　          　<a th:if="${userId == collect.userId}" >
+    th:include     布局标签，替换内容到引入的文件     <head th:include="layout :: htmlhead" th:with="title='xx'"></head> />
+    th:fragment    布局标签，定义代码片段，其它引用   <div th:fragment="alert">
+    th:object      替换对象    　　　            　 <div th:object="${session.user}">
+    th:src         图片类地址引入    　　          　![](@{/img/logo.png})
+    th:replace     布局标签，替换整个标签到引入的文件  <div th:replace="fragments/header :: title"></div>
+    th:text    　  文本替换    　　               　<p th:text="${collect.description}">description</p>
+    th:value       属性赋值    　　                <input th:value="${user.name}" />
+    th:inline      定义js脚本可以使用变量           <script type="text/javascript" th:inline="javascript">
+    th:remove      删除某个属性    　　　        　 <tr th:remove="all"> 
+    th:style       设置样式    　　　　　　　　      th:style="'display:' + @{(${sitrue} ? 'none' : 'inline-block')} + ''"
+    th:onclick     点击事件    　　　　　　         th:onclick="'getCollect()'"
+
+    ```  
