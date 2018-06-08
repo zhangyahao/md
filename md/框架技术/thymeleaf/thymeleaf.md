@@ -108,7 +108,8 @@
         </body>
 
         ```
-6.  语法
+6.  语法 <br>
+    就是java方法
     ```aidl
          #dates: java.util的实用方法。对象:日期格式、组件提取等.
          #calendars: 类似于#日期,但对于java.util。日历对象
@@ -127,7 +128,7 @@
          #session:用于web应用中获取session的参数
     ```
     
-7. 常用属性
+7. 常用属性  
     ```aidl
     h:action      表单提交的地址    　　　       <form action="subscribe.html" th:action="@{/subscribe}">
     th:each        属性赋值    　　　　　　　   　 <tr th:each="user,userStat:${users}">
