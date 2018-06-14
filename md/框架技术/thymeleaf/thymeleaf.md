@@ -11,8 +11,10 @@
 2.  使用<br>        
     在页面开始时引入
     ```$xslt
-        <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-        <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <!DOCTYPE HTML>
+       <html lang="zh-CN"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:th="http://www.thymeleaf.org">
     ```
 3.  配置    
     ```$xslt
@@ -131,7 +133,7 @@
     
 7. 常用属性  
     ```aidl
-    h:action      表单提交的地址    　　　       <form action="subscribe.html" th:action="@{/subscribe}">
+    th:action      表单提交的地址    　　　       <form action="subscribe.html" th:action="@{/subscribe}">
     th:each        属性赋值    　　　　　　　   　 <tr th:each="user,userStat:${users}">
     th:field       常用于表单字段绑定             <input type="text" value="" th:field="*{username}"></input>
     th:href        链接地址    　　　　　　　    　<a th:href="@{/login}" th:unless=${session.user != null}>Login</a> />
