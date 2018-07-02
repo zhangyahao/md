@@ -54,6 +54,12 @@
                   public HashSet<String> getB(){
                        		HashSet<String> zhiboIdSet = null;
                        		Client client = new Client();
+             		
+   		             //中文搜索 模糊查询
+             		QueryStringQueryBuilder queryBuilder = new QueryStringQueryBuilder("\""+kwords+"\"");
+             		//引用ik分析器查询相应字段
+   		             queryBuilder.quoteAnalyzer("ik").field("mzName");
+   		
                        		//搜索时的字段
                        		QueryBuilder qb = QueryBuilders.queryString("*").field("name") .minimumShouldMatch("100%");  //设置最小的匹配度
                             // boolQuery 搜索
