@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--
+生成命令：
+java -jar mybatis-generator-core-1.3.1.jar -configfile mybatis-generator.xml  -overwrite
+ -->
+<generatorConfiguration>
+    <!-- 驱动jar包，mssql使用jtds-1.2.jar,mysql使用mysql-connector-java-5.0.8-bin.jar,oracle使用ojdbc14.jar -->
+    <classPathEntry location="E:\Maven\.m2\repo\mysql\mysql-connector-java\5.1.15\mysql-connector-java-5.1.15.jar" />
+
+    <context id="ao_tables" targetRuntime="MyBatis3">
+        <!-- 数据库链接配置 -->
+        <!-- mssql配置 -->
+        <!--
+        <jdbcConnection driverClass="net.sourceforge.jtds.jdbc.Driver"
+            connectionURL="jdbc:jtds:sqlserver://localhost:1433/xfreecms" userId="sa"
+            password="sa">
+        </jdbcConnection>
+         -->
+        <!-- oracle配置 -->
+        <!--
+        <jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+            connectionURL="jdbc\:oracle\:thin\:@localhost\:1521\:orcl" userId="xfreecms"
+            password="xfreecms">
+        </jdbcConnection>
+         -->
+
+        <!-- mysql配置 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://10.10.5.5/ao_cirs?useUnicode=true" userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- model生成文件的存放位置 -->
+        <javaModelGenerator targetPackage="com.ccdt.amos.cirs.model"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- sqlmap生成文件的存放位置 -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- dao生成文件的存放位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.ccdt.amos.cirs.dao"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 要生成的表.对应的类名 -->
+        <!--<table tableName="ao_leaderboard_tab" domainObjectName="AoLeaderboardTab"></table>-->
+        <!--<table tableName="ao_movie_tab" domainObjectName="Movie"/>-->
+        <!--<table tableName="ao_movie_play_url_tab" domainObjectName="MoviePlay"/>-->
+        <!--<table tableName="ao_movie_node_rel" domainObjectName="MovieNode"/>-->
+        <!--<table tableName="ao_images_tab" domainObjectName="Images"/>-->
+        <!--<table tableName="ao_node_tab" domainObjectName="Node"/>-->
+        <!--<table tableName="ao_node_image_tab" domainObjectName="NodeImage"/>-->
+        <!--<table tableName="ao_authlog_tab" domainObjectName="AuthLog"/>-->
+        <!--<table tableName="ao_authlog_tab" domainObjectName="AuthLog"/>-->
+        <!--<table tableName="ao_object_audit_log_tab" domainObjectName="AuditLog"/>-->
+        <!--&lt;!&ndash;<table tableName="ao_phone_user_tab" domainObjectName="PhoneUser"/>&ndash;&gt;-->
+        <!--<table tableName="ao_poster_tab" domainObjectName="Poster"/>-->
+        <!--<table tableName="ao_scheduler_tab" domainObjectName="Scheduler"/>-->
+        <!--&lt;!&ndash;<table tableName="ao_sensitive_tab" domainObjectName="Sensitive"/>&ndash;&gt;-->
+        <!--<table tableName="ao_site_tab" domainObjectName="Site"/>-->
+        <!--<table tableName="ao_site_user_group_rel" domainObjectName="SiteUser"/>-->
+        <!--<table tableName="ao_source_tab" domainObjectName="Source"/>-->
+        <!--&lt;!&ndash;<table tableName="sys_dataright" domainObjectName="Dataright"/>&ndash;&gt;-->
+        <!--<table tableName="sys_ftp_server_config_tab" domainObjectName="FtpServer"/>-->
+        <!--<table tableName="sys_funcright_tab" domainObjectName="Funcright"/>-->
+        <!--<table tableName="sys_log_tab" domainObjectName="Log"/>-->
+        <!--<table tableName="sys_menu_tab" domainObjectName="Menu"/>-->
+        <!--<table tableName="sys_param_config_tab" domainObjectName="ParamConfig"/>-->
+        <!--&lt;!&ndash;<table tableName="sys_role_dataright_rel" domainObjectName="RoleDataright"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<table tableName="sys_role_funcright_rel" domainObjectName="RoleFuncright"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<table tableName="sys_role_tab" domainObjectName="Role"/>&ndash;&gt;-->
+        <!--<table tableName="sys_user_tab" domainObjectName="User"/>-->
+        <!--<table tableName="sys_service_config_tab" domainObjectName="SysServiceConfig"/>-->
+        <!--&lt;!&ndash;<table tableName="sys_user_dataright" domainObjectName="UserData"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<table tableName="sys_user_role_tab" domainObjectName="UserRel"/>&ndash;&gt;-->
+        <!--<table tableName="ao_episode_tab" domainObjectName="Episode"/>-->
+        <!--<table tableName="ao_homepage_tab" domainObjectName="HomePage"/>-->
+        <table tableName="ao_provider_tab" domainObjectName="Provider"/>
+    </context>
+</generatorConfiguration>
