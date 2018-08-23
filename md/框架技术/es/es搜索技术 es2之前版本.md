@@ -121,3 +121,14 @@
                        	}
 
          ```
+     10.   索引优化
+            ```aidl
+            OptimizeResponse response = client.admin().indices()
+            .prepareOptimize("library")
+            .setMaxNumSegments(2)  //最大索引段为2
+            .setFlush(true)
+            .setOnlyExpungeDeletes(false)
+            .execute().actionGet();
+
+            ```
+        
