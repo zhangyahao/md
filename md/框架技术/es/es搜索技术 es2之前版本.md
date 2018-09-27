@@ -1,4 +1,4 @@
-#####ElasticSearch（luncene）
+#####ElasticSearch（luncene）  未完成使用中补充
 
 1. 简介
     是一种无模式的搜索引擎 
@@ -61,6 +61,9 @@
              		QueryStringQueryBuilder queryBuilder = new QueryStringQueryBuilder("\""+kwords+"\"");
              		//引用ik分析器查询相应字段
    		             queryBuilder.quoteAnalyzer("ik").field("mzName");
+        
+                  //当ik分词器不起作用时使用es自带的query_string查询
+                   QueryBuilder build = QueryBuilders.commonTerms("mzName", kwords);
    		
                        		//搜索时的字段
                        		QueryBuilder qb = QueryBuilders.queryString("*").field("name") .minimumShouldMatch("100%");  //设置最小的匹配度
@@ -131,4 +134,5 @@
             .execute().actionGet();
 
             ```
-        
+     11.  注意<br>
+          1. es使用` BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();` 可以再其中嵌套多层查询，可以实现比较复杂的业务逻辑
