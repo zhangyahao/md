@@ -6,7 +6,7 @@
    ```
    2. 解析xml形式的文本，得到Document对象，将字符串转换为
    ```$xslt
-    Document String text = "<members></members>";
+    String text = "<members></members>";
     Document document = DocumentHelper.parseText(text);
     ```
     3. 主动创建Document对象（直接创建）
@@ -18,14 +18,6 @@
     1. 获取文档的根节点：
     ```$xslt
     Element root = document.getRootElement();
-    ```
-    2. 取得某个节点的子节点
-    ```$xslt
-    Element element=node.element(“书名");
-    ```
-    3. 取得节点的文本
-    ```$xslt
-    String text=node.getText();
     ```
     4. 取得某节点下所有名为“member“的子节点，并进行遍历
     ```$xslt
