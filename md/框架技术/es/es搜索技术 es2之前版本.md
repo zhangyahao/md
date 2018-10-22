@@ -49,8 +49,8 @@
            ```
                       
      9.   查询   
-            [聚合索引使用方法](https://elasticsearch.cn/article/102) 
-            对特殊字符的处理
+            [聚合索引使用方法](https://elasticsearch.cn/article/102) <br>
+            对特殊字符的处理 <br>
             [具体操作方式](https://blog.csdn.net/dlm_bk/article/details/79758413)           
           ```aidl
                   public HashSet<String> getB(){
