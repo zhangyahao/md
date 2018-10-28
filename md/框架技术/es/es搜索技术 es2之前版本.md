@@ -136,3 +136,6 @@
             ```
      11.  注意<br>
           1. es使用` BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();` 可以再其中嵌套多层查询，可以实现比较复杂的业务逻辑
+          2. es查询后数据默认10个，因此如果需要查询多个Id时，需要将结果数据增加
+        
+         
