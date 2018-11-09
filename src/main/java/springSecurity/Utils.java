@@ -16,4 +16,6 @@ public class Utils {
         SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
     }
+
+
 }

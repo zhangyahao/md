@@ -1,8 +1,6 @@
-package util;
+package main.java.util;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -109,6 +107,35 @@ public class DateUtil {
         long betweenDays = (time2 - time1) / 1000 ;
         return Math.toIntExact(betweenDays);
     }
+    /**
+     * 获取epg时间段 0点到当前时间
+     *
+     * @return
+     */
+    public static String getEpgPeriod() {
+        LocalDateTime start = DateUtil.stringGetTime(localDate.format(Dateformatter) + " 00:00:00");
+        long startTime = start.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        long endTime = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        System.out.println(start);
+        return startTime + "_" + endTime;
+    }
 
+    /**将 13位时间戳字符串转为想要的时间格式
+     * @param timestamp
+     * @return
+     */
+    public static String getDateTimeOfTimestamp(String timestamp) {
+        Instant instant = Instant.ofEpochMilli(Long.valueOf(timestamp.substring(0,(timestamp.length()-2))));
+        ZoneId zone = ZoneId.systemDefault();
+        return LocalDateTime.ofInstant(instant, zone).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+    }
+
+    /**
+     * 将 yyyy-MM-dd HH:mm:ss 转位yyyyMMddHHmmss
+     */
+    public static String conversionTime(String time) {
+        LocalDateTime localDateTime = LocalDateTime.parse(time, formatter);
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+    }
 
 }
