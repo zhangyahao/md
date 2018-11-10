@@ -10,22 +10,25 @@ import java.time.temporal.ChronoUnit;
  * @create: 2018-06-19 13:49
  **/
 public class DateUtil {
-    private static LocalDateTime localDateTime  = LocalDateTime.now();
-    private static String LOCALDATE_FORMAT_DATETIME = "yyyy/MM/dd HH:mm:ss";
+    private static String LOCALDATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
     private static String DATE_FORMAT_DATETIME = "yyyy-MM-dd";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCALDATE_FORMAT_DATETIME);
     private static DateTimeFormatter Dateformatter = DateTimeFormatter.ofPattern(DATE_FORMAT_DATETIME);
-    private static LocalDate localDate = LocalDate.now();
-
+    private static LocalTime localTime = LocalTime.now();
+    private static String LOCALTIME_FORMAT_DATETIME = "HH:mm:ss";
 
     /**
      * 获取当前时间戳
      * @return
      */
     public static String getSysDateTimeString() {
+        LocalDateTime localDateTime  = LocalDateTime.now();
         return localDateTime.format(formatter);
     }
 
+    public static String getLocaTime() {
+        return localTime.format(DateTimeFormatter.ofPattern(LOCALTIME_FORMAT_DATETIME));
+    }
     /**
      * 获取当前string 转换为日期
      */
@@ -71,17 +74,16 @@ public class DateUtil {
     /**
      * 时间计算
      * @param dateA
-     * @param dateB
      * @return
      */
-    public static String getBetweenDay(String dateA, String dateB) {
+    public static long getBetweenDay(String dateA) {
         long time1 = 0, time2 = 0;
         LocalDateTime start = stringGetTime(dateA);
-        LocalDateTime end = stringGetTime(dateB);
+        LocalDateTime end = LocalDateTime.now();
         time1 = start.toInstant(ZoneOffset.of("+8")).toEpochMilli();
         time2 = end.toInstant(ZoneOffset.of("+8")).toEpochMilli();
         long betweenDays = (time2 - time1) / (1000 * 60);
-        return String.valueOf(betweenDays);
+        return betweenDays;
     }
 
     /**
@@ -93,10 +95,11 @@ public class DateUtil {
     }
 
     /**
-     * 计算当前时间到晚上0点剩余时间
+     * 计算当前时间到晚上0点的剩余时间
      */
 
     public static int getRedisExpir() {
+        LocalDate localDate = LocalDate.now();
         long time1, time2;
         LocalDateTime now = LocalDateTime.now();
         //第二天 0点
@@ -107,12 +110,14 @@ public class DateUtil {
         long betweenDays = (time2 - time1) / 1000 ;
         return Math.toIntExact(betweenDays);
     }
+
     /**
      * 获取epg时间段 0点到当前时间
      *
      * @return
      */
     public static String getEpgPeriod() {
+        LocalDate localDate = LocalDate.now();
         LocalDateTime start = DateUtil.stringGetTime(localDate.format(Dateformatter) + " 00:00:00");
         long startTime = start.toInstant(ZoneOffset.of("+8")).toEpochMilli();
         long endTime = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli();
@@ -120,7 +125,7 @@ public class DateUtil {
         return startTime + "_" + endTime;
     }
 
-    /**将 13位时间戳字符串转为想要的时间格式
+    /**将大数据给的数据转为string取redis的key
      * @param timestamp
      * @return
      */
@@ -137,5 +142,6 @@ public class DateUtil {
         LocalDateTime localDateTime = LocalDateTime.parse(time, formatter);
         return localDateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
     }
+
 
 }
