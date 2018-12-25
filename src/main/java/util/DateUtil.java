@@ -1,4 +1,4 @@
-package com.ccdt.amos.cirs.util;
+package util;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +15,6 @@ public class DateUtil {
     private static String DATE_FORMAT_DATETIME = "yyyy-MM-dd";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCALDATE_FORMAT_DATETIME);
     private static DateTimeFormatter Dateformatter = DateTimeFormatter.ofPattern(DATE_FORMAT_DATETIME);
-    private static LocalTime localTime = LocalTime.now();
     private static String LOCALTIME_FORMAT_DATETIME = "HH:mm:ss";
 
     /**
@@ -29,6 +28,7 @@ public class DateUtil {
     }
 
     public static String getLocaTime() {
+        LocalTime localTime = LocalTime.now();
         return localTime.format(DateTimeFormatter.ofPattern(LOCALTIME_FORMAT_DATETIME));
     }
 
