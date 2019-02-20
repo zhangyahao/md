@@ -33,6 +33,14 @@
                 中华、华人、人民共和国、人民、人、民、共和国、共和、和、国国、国歌」，会穷尽各种可能的组合； 
                     ik_smart：会将文本做最粗粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、国歌」；
      8.   multi-field： 多域类型允许你对同一个值以映射的方式定义成多个基本类型  
+     9.   nested：该属性在索引中需要创建一个类似list集合时使用,**此属性在es2后不适用**<br>
+            ````aidl
+             .startObject("properties")
+             	 .startObject("xxxx")
+			 .startObject("xxx").field("type", "nested")
+			   			.startObject("properties")
+
+          ````
      8.   示例 <br>
             [索引建立方式](https://blog.csdn.net/napoay/article/details/51707023)
             ```
