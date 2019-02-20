@@ -72,7 +72,9 @@
         
                   //当ik分词器不起作用时使用es自带的query_string查询
                    QueryBuilder build = QueryBuilders.commonTerms("mzName", kwords);
-   		
+   		           //NestedQueryBuilder搜索属性为 nested节点的数据
+                    NestedQueryBuilder lmqb = QueryBuilders.nestedQuery("xxx", QueryBuilders.queryString(kwords).field("xxx"));
+                   或者NestedQueryBuilder nestedQuery = new NestedQueryBuilder("hallList", new TermQueryBuilder("hallList.capacityMin","11"));   //注意：除path之外，fieldName也要带上path (hallList)   
                        		//搜索时的字段
                        		QueryBuilder qb = QueryBuilders.queryString("*").field("name") .minimumShouldMatch("100%");  //设置最小的匹配度
                             // boolQuery 搜索
