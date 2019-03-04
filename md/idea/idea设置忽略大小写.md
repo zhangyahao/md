@@ -1,0 +1,1 @@
+ File–>Settings–>Editor–>General–>Code Completion–>Mach case的勾取消掉就可以 了 
