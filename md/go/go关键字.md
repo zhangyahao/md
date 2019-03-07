@@ -1,4 +1,6 @@
-1. go 表达式go f(x, y, z)会启动一个新的goroutine运行函数f(x, y, z)。函数f，变量x、y、z的值是在原goroutine计算的，只有函数f的执行是在新的goroutine中的。显然，新的goroutine不能和当前go线程用同一个栈，否则会相互覆盖。所以对go关键字的调用协议与普通函数调用是不同的。
+1. go 表达式go f(x, y, z)会启动一个新的goroutine运行函数f(x, y, z)。函数f，变量x、y、z的值是在原goroutine计算的，
+    只有函数f的执行是在新的goroutine中的。显然，新的goroutine不能和当前go线程用同一个栈，否则会相互覆盖。所以对go关键字的调
+    用协议与普通函数调用是不同的。
     所谓的goroutine 实际上就是一条线程。
     然后，将goroutine添加进去，然后调用。示例
     ````aidl
