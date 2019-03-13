@@ -29,5 +29,5 @@
         </build>
 
     ```
-3.  添加配置文件 `generatorConfig.xml` 
+3.  添加配置文件 [generatorConfig.xml](https://github.com/zhangyahao/md/blob/master/src/main/resources/generatorConfig.XML)
 4.  在maven中运行   mybatis-generator
