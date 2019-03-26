@@ -1,6 +1,7 @@
 package util;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 public class DecimalUtil {
     /**
@@ -106,9 +107,5 @@ public class DecimalUtil {
         BigDecimal b2 = new BigDecimal(y);
         return df.format(b1.divide(b2,2,BigDecimal.ROUND_HALF_UP));
     }
----------------------
-    作者：xqnode
-    来源：CSDN
-    原文：https://blog.csdn.net/xqnode/article/details/78633310
-    版权声明：本文为博主原创文章，转载请附上博文链接！
+
 }
