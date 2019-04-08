@@ -33,6 +33,14 @@
                 中华、华人、人民共和国、人民、人、民、共和国、共和、和、国国、国歌」，会穷尽各种可能的组合； 
                     ik_smart：会将文本做最粗粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、国歌」；
      8.   multi-field： 多域类型允许你对同一个值以映射的方式定义成多个基本类型  
+     9.   nested：该属性在索引中需要创建一个类似list集合时使用,**此属性在es2后不适用**<br>
+            ````aidl
+             .startObject("properties")
+             	 .startObject("xxxx")
+			 .startObject("xxx").field("type", "nested")
+			   			.startObject("properties")
+
+          ````
      8.   示例 <br>
             [索引建立方式](https://blog.csdn.net/napoay/article/details/51707023)
             ```
@@ -64,7 +72,9 @@
         
                   //当ik分词器不起作用时使用es自带的query_string查询
                    QueryBuilder build = QueryBuilders.commonTerms("mzName", kwords);
-   		
+   		           //NestedQueryBuilder搜索属性为 nested节点的数据
+                    NestedQueryBuilder lmqb = QueryBuilders.nestedQuery("xxx", QueryBuilders.queryString(kwords).field("xxx"));
+                   或者NestedQueryBuilder nestedQuery = new NestedQueryBuilder("hallList", new TermQueryBuilder("hallList.capacityMin","11"));   //注意：除path之外，fieldName也要带上path (hallList)   
                        		//搜索时的字段
                        		QueryBuilder qb = QueryBuilders.queryString("*").field("name") .minimumShouldMatch("100%");  //设置最小的匹配度
                             // boolQuery 搜索
@@ -134,6 +144,12 @@
             .execute().actionGet();
 
             ```
-     
         
-         
+     11.   线程设置
+            ````aidl
+               	client.prepareDelete("vods", "tvMovie", assetId).setOperationThreaded(false).execute().actionGet();
+            ````  
+            删除api在同一个节点上执行时（在一个分片中执行一个api会分配到同一个服务器上），删除api允许执行前设置线程模式<br>
+            （operationThreaded选项），operationThreaded这个选项是使这个操作在另外一个线程中执行，或在一个正在请求的线程<br>
+            （假设这个api仍是异步的）中执行。默认的话operationThreaded会设置成true，这意味着这个操作将在一个不同的线程中执行
+           

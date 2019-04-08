@@ -1,0 +1,1 @@
+在idea中的settings/build，Execution，Deployment/complier下java complier中的 use complier设置为eclipse。再次重新启动。

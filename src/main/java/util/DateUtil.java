@@ -156,5 +156,21 @@ public class DateUtil {
         LocalDateTime localDateTime = stringGetTime(time);
         return localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
     }
+    /**
+     * 计算日期{@code startDate}与{@code endDate}的间隔天数
+     *
+     * @param startDate
+     * @param endDate
+     * @return 间隔天数
+     */
+  public   static long until(LocalDate startDate, LocalDate endDate){
+//        return startDate.until(endDate, ChronoUnit.DAYS);
+        //或者
+      return ChronoUnit.DAYS.between(startDate, endDate);
+    }
+
+
+
+
 
 }
