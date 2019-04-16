@@ -5,6 +5,8 @@
         
         /* 使用 make 函数 */
         map_variable := make(map[key_data_type]value_data_type)
+        /*声明一个已经开辟了内存空间得map */        
+        map_variable=map[key_data_type]value_data_type{}
     ```
     如果不初始化 map，那么就会创建一个 nil map。nil map 不能用来存放键值对
 2.  ###map相关函数   
@@ -12,8 +14,7 @@
         ```aidl
             var stringMap map[string]string
             stringMap = make(map[string]string)
-            	s, ok :=stringMap["3"]
-            	if ok {
+            	if s, ok :=stringMap["3"],ok{
             		fmt.Println("存在",s)
             	}else {
             		fmt.Println("不存在")
