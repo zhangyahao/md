@@ -77,7 +77,7 @@ public class DateUtil {
 
     /**
      * 时间计算
-     *
+     *两个时间相差得分钟数
      * @param dateA
      * @return
      */
@@ -163,14 +163,12 @@ public class DateUtil {
      * @param endDate
      * @return 间隔天数
      */
-  public   static long until(LocalDate startDate, LocalDate endDate){
+  public   static long until(String  startDate, String endDate){
 //        return startDate.until(endDate, ChronoUnit.DAYS);
         //或者
-      return ChronoUnit.DAYS.between(startDate, endDate);
+      LocalDate start = LocalDate.parse(startDate, Dateformatter);
+      LocalDate end = LocalDate.parse(endDate, Dateformatter);
+      return ChronoUnit.DAYS.between(start, end);
     }
-
-
-
-
 
 }
