@@ -168,7 +168,8 @@ public class DateUtil {
         //或者
       LocalDate start = LocalDate.parse(startDate, Dateformatter);
       LocalDate end = LocalDate.parse(endDate, Dateformatter);
-      return ChronoUnit.DAYS.between(start, end);
+      return end.toEpochDay() - start.toEpochDay();
+//      return ChronoUnit.DAYS.between(start, end);
     }
 
 }

@@ -152,4 +152,4 @@
             删除api在同一个节点上执行时（在一个分片中执行一个api会分配到同一个服务器上），删除api允许执行前设置线程模式<br>
             （operationThreaded选项），operationThreaded这个选项是使这个操作在另外一个线程中执行，或在一个正在请求的线程<br>
             （假设这个api仍是异步的）中执行。默认的话operationThreaded会设置成true，这意味着这个操作将在一个不同的线程中执行
-           
+6.  [其他的一些操作](https://github.com/zhangyahao/md/blob/master/src/main/java/util/EsUtil.java)           
