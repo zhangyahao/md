@@ -1,1 +1,2 @@
 [详解](https://mp.weixin.qq.com/s?__biz=MzI4Njc5NjM1NQ==&mid=2247487254&idx=1&sn=528c7d5f071558962813d0f75113d18a&chksm=ebd6303adca1b92c2475b52ad1a674bc3b9a8d224b6e408515ddbfb3e91cd0ea2e817d52ad75&mpshare=1&scene=1&srcid=1227CC59fDH0J2XAqVEKmFw8#rd)
+[整合redis后相关操作](https://www.jianshu.com/p/19e851a3edba)
