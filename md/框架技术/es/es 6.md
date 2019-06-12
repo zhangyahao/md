@@ -95,8 +95,9 @@
             1.  norms 存储各种标准化因子，为后续查询计算文档对该查询的匹配分数提供依据
             2.  norms 参数对评分很有用，但需要占用大量的磁盘空间
             3.  如果不需要计算字段的评分，可以取消该字段 norms 的功能
-    16.  position_increment_gap ，与 proximity queries（近似查询）和 phrase queries（短语查询）有关，默认值是100      
-    17.  search_analyzer，搜索分词器，查询时使用
+    16.  position_increment_gap ，与 proximity queries（近似查询）和 phrase queries（短语查询）有关，默认值是100 <br>   
+           [详解](https://blog.csdn.net/chuan442616909/article/details/56664861)        
+    17.  search_analyzer，搜索分词器，查询时使用  ik分词器时使用
     18.  store    
             1. store 的意思是：是否在 _source 之外在独立存储一份，默认值为 false
             2. es在存储数据的时候把json对象存储到"_source"字段里，"_source"把所有字段保存为一份文档存储（读取需要1次IO），要取出某个字段则通过 source filtering 过滤
