@@ -103,3 +103,5 @@
             2. es在存储数据的时候把json对象存储到"_source"字段里，"_source"把所有字段保存为一份文档存储（读取需要1次IO），要取出某个字段则通过 source filtering 过滤
             3. 字段比较多或者内容比较多，并且不需要取出所有字段的时候，可以把特定字段的store设置为true单独存储（读取需要1次IO），同时在_source设置exclude
     19.  term_vector，与倒排索引相关
+4.  分词器选择    
+     [分词器比较](https://zhuanlan.zhihu.com/p/29183128)
