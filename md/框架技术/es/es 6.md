@@ -57,6 +57,7 @@
     |term_vector|	词条向量	|| 
 
     1. analyzer，用于 text 类型字段，分词产生多个 token，
+    2. normalizer , normalizer 用于 keyword 类型，只产生一个 token（整个字段的值作为一个token，而不是分词拆分为多个token）   
     2. boost
     3. dynamic,是否允许新增字段在最外层使用。属性有`true`，`false `不允许自动新增字段，但是文档可以正常写入，但无法对新增字段进行查询等操作，`strict ` 文档不能写入，报错
     4. index    
@@ -80,7 +81,6 @@
             是否需要把字段值以 `列式` 存储到磁盘中, 以支持后续的排序聚合以及 scripting. 默认 `true`.
           ````
     9.  fields ,   该参数的目的是为了实现 multi-fields
-    10. normalizer , normalizer 用于 keyword 类型，只产生一个 token（整个字段的值作为一个token，而不是分词拆分为多个token）                      
     11. enabled   是否索引，默认为 true    
     12. ignore_above
             1. 设置能被索引的字段的长度
