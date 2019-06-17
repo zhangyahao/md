@@ -71,6 +71,8 @@
           1.  Elasticsearch第一次查询时完整加载这个字段所有 Segment 中的倒排索引到内存中
           2.  如果我们有一些 5 GB 的索引段，并希望加载 10 GB 的 fielddata 到内存中，这个过程可能会要数十秒
           3.  将 fielddate 设置为 true ,将载入 fielddata 的代价转移到索引刷新的时候，而不是查询时，从而大大提高了搜索体验
+          4.  该属性用于**_text_**类型中
+          5.  [详解](https://www.cnblogs.com/chenmz1995/p/10198967.html)
     7.  eager_global_ordinals，是否构建全局序号，默认false
           ```aidl
                 是否在刷新的时候优先加载全局排序, 默认 `false`.
