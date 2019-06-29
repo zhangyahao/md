@@ -11,8 +11,8 @@ import java.time.temporal.ChronoUnit;
  * @create: 2018-06-19 13:49
  **/
 public class DateUtil {
-    private static String LOCALDATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
     private static String DATE_FORMAT_DATETIME = "yyyy-MM-dd";
+    private static String LOCALDATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCALDATE_FORMAT_DATETIME);
     private static DateTimeFormatter Dateformatter = DateTimeFormatter.ofPattern(DATE_FORMAT_DATETIME);
     private static String LOCALTIME_FORMAT_DATETIME = "HH:mm:ss";
