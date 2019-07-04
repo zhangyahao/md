@@ -57,10 +57,10 @@
     |term_vector|	词条向量	|| 
 
     1. analyzer，用于 text 类型字段，分词产生多个 token，
-    2. normalizer , normalizer 用于 keyword 类型，只产生一个 token（整个字段的值作为一个token，而不是分词拆分为多个token）   
+    2. normalizer , normalizer 用于 keyword 类型，只产生一个 token（整个字段的值作为一个token，而不是分词拆分为多个token）也就是不分词   
     2. boost
     3. dynamic,是否允许新增字段在最外层使用。属性有`true`，`false `不允许自动新增字段，但是文档可以正常写入，但无法对新增字段进行查询等操作，`strict ` 文档不能写入，报错
-    4. index    
+    4. index   只有true和false **没有not_analyzed**
     5. index_options<br>
        index_options参数控制将哪些信息添加到倒排索引，以用于搜索和突出显示，可选的值有：`docs`，`freqs`，`positions`，`offsets`
         1. docs：只索引 doc id
@@ -99,7 +99,7 @@
             3.  如果不需要计算字段的评分，可以取消该字段 norms 的功能
     16.  position_increment_gap ，与 proximity queries（近似查询）和 phrase queries（短语查询）有关，默认值是100 <br>   
            [详解](https://blog.csdn.net/chuan442616909/article/details/56664861)        
-    17.  search_analyzer，搜索分词器，查询时使用  ik分词器时使用
+    17.  analyzer，搜索分词器，查询时使用  ik分词器时使用,直接使用分词器的引擎 `ik_smart`
     18.  store    
             1. store 的意思是：是否在 _source 之外在独立存储一份，默认值为 false
             2. es在存储数据的时候把json对象存储到"_source"字段里，"_source"把所有字段保存为一份文档存储（读取需要1次IO），要取出某个字段则通过 source filtering 过滤
