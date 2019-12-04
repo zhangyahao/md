@@ -20,4 +20,4 @@
     }
 
 ```
-
+2.  使用注解  `RestController`
