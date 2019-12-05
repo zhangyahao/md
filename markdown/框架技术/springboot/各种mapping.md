@@ -11,4 +11,8 @@
     1.  @RequestMapping(method = RequestMethod.DELETE)的简写
     2.  作用：对应删除，表明是一个删除URL映射
     
+###总结
+每种 `mapping` 必须使用相关的url提交方式，比如 `GetMapping`就必须使用get请求，其他一样。
+    
+    
     
