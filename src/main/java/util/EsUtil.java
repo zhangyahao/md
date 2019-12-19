@@ -1,5 +1,7 @@
 package util;
 
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -9,18 +11,19 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.reindex.DeleteByQueryAction;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-import org.elasticsearch.common.settings.ImmutableSettings;
 
-import java.lang.reflect.Constructor;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -31,61 +34,59 @@ import java.util.Map;
 @Configuration
 @Component
 public class EsUtil {
-    private static EsUtil instace;
+    public static final String CLUSTERNAME = "searchguard_demo";
+    private static final String HOST = "10.10.10.10";
+    private final static int PORT = 9300;
+    private static com.example.cmdisearch.search.base.EsUtil instace;
+    // 创建私有对象
+    private static TransportClient client;
 
-    private String clusterName = PropertiesFileUtil.getInstance().get("escClusterName");
-    private  String iPport= PropertiesFileUtil.getInstance().get("esiPports");
-
-    public static EsUtil getInstance() {
+    public static com.example.cmdisearch.search.base.EsUtil getInstance() {
         if (instace == null) {
-            instace = new EsUtil();
+            instace = new com.example.cmdisearch.search.base.EsUtil();
         }
         return instace;
     }
 
-    // 创建私有对象
-    private static TransportClient client;
-
-    // 取得实例
+    /**
+     * 获取实例
+     *
+     * @return
+     * @throws Exception
+     */
     public synchronized TransportClient getClient() {
-        Settings settings = ImmutableSettings.settingsBuilder().put("cluster.name", clusterName)
-                .put("client.transport.sniff", true).put("index.translog.flush_threshold_ops", 10000).build();
+        Settings settings = Settings.builder().put("cluster.name", CLUSTERNAME)
+                                    .put("client.transport.sniff", true)
+                                    .put("client.transport.ignore_cluster_name", true)
+                                    .build();
         try {
-            Class<?> clazz = Class.forName(TransportClient.class.getName());
-            Constructor<?> constructor = clazz.getDeclaredConstructor(Settings.class);
-            constructor.setAccessible(true);
-            client = (TransportClient) constructor.newInstance(settings);
-            String[] iPports = iPport.split(",");
-            TransportAddress[] tas = new InetSocketTransportAddress[iPports.length];
-            for (int i = 0; i < iPports.length; i++) {
-                String[] ipPort = iPports[i].split(":");
-                tas[i] = new InetSocketTransportAddress(InetAddress.getByName(ipPort[0]), Integer.parseInt(ipPort[1]));
-            }
-            client.addTransportAddresses(tas);
-        } catch (Exception e) {
+            //连接
+            TransportClient client = new PreBuiltTransportClient(settings)
+                    .addTransportAddress(new TransportAddress(InetAddress.getByName(HOST), PORT));
+            return client;
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        return client;
+        return null;
     }
 
     /**
-     * 获取所有的数据
+     * 获取index下所有id
      *
-     * @param seletName
      * @param index
      * @param type
      * @return
      */
-
-    public HashSet<String> getId(String seletName, String index, String type) {
+    public HashSet<String> getId(String index, String type) {
+        client = this.getClient();
         HashSet<String> idSet = null;
         this.getClient();
-        QueryBuilder qb = QueryBuilders.queryString("*").field(seletName);
+        QueryBuilder qb = QueryBuilders.matchAllQuery();
         SearchResponse response = client.prepareSearch(index).setTypes(type)
-                .setQuery(qb)
-                .setFrom(0).setSize(10000)
-                .setFetchSource(index, null)
-                .setExplain(true).execute().actionGet();
+                                        .setQuery(qb)
+                                        .setFrom(0).setSize(10000)
+                                        .setFetchSource(index, null)
+                                        .setExplain(true).execute().actionGet();
         SearchHits hits = response.getHits();
         if (hits.getTotalHits() > 0) {
             idSet = new HashSet<>();
@@ -94,23 +95,10 @@ public class EsUtil {
             }
         }
         return idSet;
+
     }
 
-    /***
-     * 判断索引是否存在
-     */
-
-    public static boolean isIndexExist(String index) {
-        IndicesExistsResponse inExistsResponse = client.admin().indices().exists(new IndicesExistsRequest(index))
-                .actionGet();
-        return inExistsResponse.isExists();
-    }
-
-    /**
-     * 添加数据
-     * 返回所有id
-     */
-    public HashSet<String> addIndex(String index, String type, List<Map<String, Object>> lists) {
+    public HashSet<String> addIndex(String index, String type, List<Map<String, Object>> lists, HashSet<String> esSet) {
         if (lists == null || lists.isEmpty()) {
             return null;
         }
@@ -128,24 +116,28 @@ public class EsUtil {
             bulkRequestBuilder.add(indexRequestBuilder);
             actionFlag = true;
         }
+        //删除es中以存在的重复数据
+        this.deleRepeat(client, esSet, dbIdSet, index, type);
         if (actionFlag) {
             BulkResponse bulkItemResponse = bulkRequestBuilder.execute().actionGet();
             if (bulkItemResponse.hasFailures()) {
                 System.out.println(index + "index:" + bulkItemResponse.buildFailureMessage());
             }
         }
+        client.close();
         return dbIdSet;
+
     }
 
     /**
      * 删除重复数据
      */
-    public void deleRepeat(HashSet<String> esSet, HashSet<String> dbSet, String index, String type) {
-        Client client = this.getClient();
+    public void deleRepeat( Client client,HashSet<String> esSet, HashSet<String> dbSet, String index, String type) {
+
         if (esSet != null) {
             for (String s : esSet) {
                 if (!dbSet.contains(s)) {
-                    client.prepareDelete(index, type, s).setOperationThreaded(false).execute().actionGet();
+                    client.prepareDelete(index, type, s).execute().actionGet();
                 }
             }
         }
@@ -154,31 +146,84 @@ public class EsUtil {
     /**
      * 对es操作 增量或者删除
      */
-    public void incrementIndex(String ids, String operateType, String index, String type, List<Map<String, Object>> mapList) {
+    public void incrementIndex(String flag, String ids, String operateType, String index, String type, List<Map<String, Object>> mapList) {
         Client client = this.getClient();
         if (operateType.equals("edit")) {
-            String[] idArray = ids.split(",");
             BulkRequestBuilder bulkRequest = client.prepareBulk();
-            IndexRequestBuilder indexRequest = null;
 
             for (Map<String, Object> stringObjectMap : mapList) {
-                indexRequest = client.prepareIndex(index, type).setId(stringObjectMap.remove("id").toString()).setSource(stringObjectMap);
-                bulkRequest.add(indexRequest);
+                bulkRequest.add(client.prepareIndex(index, type).setSource(stringObjectMap));
             }
             BulkResponse bulkResponse = bulkRequest.execute().actionGet();
             if (bulkResponse.hasFailures()) {
                 System.out.println(index + "increment index: " + bulkResponse.buildFailureMessage());
             }
-        } else if (type.equals("del")) {
-            if (ids.indexOf(",") > 0) {
-                for (String tid : ids.split(",")) {
-                    client.prepareDelete(index, type, tid).setOperationThreaded(false).execute().actionGet();
+        } else if (operateType.equals("del")) {
+            if ("id".equals(flag)) {
+                if (ids.indexOf(",") > 0) {
+                    for (String tid : ids.split(",")) {
+                        client.prepareDelete(index, type, tid).execute().actionGet();
+                    }
+                } else {
+                    client.prepareDelete(index, type, ids).execute().actionGet();
                 }
-            } else {
-                client.prepareDelete(index, type, ids).setOperationThreaded(false).execute().actionGet();
+            } else if ("serialNo".equals(flag)) {
+                QueryBuilder Query;
+                if (ids.indexOf(",") > 0) {
+                    for (String tid : ids.split(",")) {
+                        Query = QueryBuilders.matchQuery("serialNo", tid);
+                        DeleteByQueryAction.INSTANCE.newRequestBuilder(client).filter(Query).source(index).execute();
+                    }
+                } else {
+                    Query = QueryBuilders.matchQuery("serialNo", ids);
+                    DeleteByQueryAction.INSTANCE.newRequestBuilder(client).filter(Query).source(index).execute();
+                }
+
             }
         }
+        client.close();
     }
+
+    /**
+     * 创建索引
+     *
+     * @param indexName 索引名
+     * @param shards    分片数
+     * @param replicas  副本数
+     * @return
+     */
+    public boolean createIndex(String indexName, String type, XContentBuilder mapping, int shards, int replicas) {
+
+        Client client = this.getClient();
+        Settings settings = Settings.builder()
+                                    .put("index.number_of_shards", shards)
+                                    .put("index.number_of_replicas", replicas)
+                                    .build();
+        CreateIndexResponse createIndexResponse = client.admin().indices()
+                                                        .prepareCreate(indexName.toLowerCase())
+                                                        .setSettings(settings).addMapping(type, mapping)
+                                                        .execute().actionGet();
+        return createIndexResponse.isAcknowledged() ? true : false;
+    }
+
+    /**
+     * 删除索引
+     */
+    public void delIndex(String index) {
+        Client client = this.getClient();
+
+        IndicesExistsRequest inExistsRequest = new IndicesExistsRequest(index);
+        IndicesExistsResponse inExistsResponse = client.admin().indices()
+                                                       .exists(inExistsRequest).actionGet();
+
+        if (inExistsResponse.isExists()) {
+            DeleteIndexRequestBuilder delete = client.admin().indices().prepareDelete(index);
+            delete.execute().actionGet();
+        }
+        client.close();
+
+    }
+
 }
 
 
