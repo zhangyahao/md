@@ -1,0 +1,37 @@
+1.  当使用该框架后，注册中心自动会添加密码，如未配置密码，在启动时会生成一个密码字符串，默认登录名为  `user`  
+2.  配置密码服务
+      ```yaml
+         spring:
+            security:
+             user:
+               name: admin
+               password: admin
+      ```
+
+3. 关闭 `CSRF`  
+       ·  CORS(跨站资源共享)是局部打破同源策略的限制，使在一定规则下HTTP请求可以突破浏览器限制，实现跨站访问  
+       ·  CSRF是一种网络攻击方式，也可以说是一种安全漏洞，这种安全漏洞在web开发中广泛存在  
+       ·  当开启后所有的跨域请求将被拦截，因此需要关闭
+    ```java
+    
+    import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+    import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+    import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+    
+    /**
+     * @description: 关闭CSRF
+     * @author: Zhang
+     * @create: 2019-12-27 11:03
+     **/
+    @EnableWebSecurity
+    public class WebSecurityConfig {
+        @EnableWebSecurity
+        public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+            @Override
+            protected void configure(HttpSecurity http) throws Exception {
+                http.authorizeRequests().anyRequest().authenticated().and().httpBasic().and().csrf().disable();
+            }
+        }
+    }
+
+```
