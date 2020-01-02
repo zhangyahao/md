@@ -1,4 +1,4 @@
-package util;
+package com.example.cmdisearch.search.base;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
@@ -19,8 +19,6 @@ import org.elasticsearch.index.reindex.DeleteByQueryAction;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -29,21 +27,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author zhangyh
- */
-@Configuration
-@Component
+ * @program: cmdisearch
+ * @description:
+ * @author: Zhang
+ * @create: 2019-07-03 11:07
+ **/
 public class EsUtil {
     public static final String CLUSTERNAME = "searchguard_demo";
     private static final String HOST = "10.10.10.10";
     private final static int PORT = 9300;
-    private static com.example.cmdisearch.search.base.EsUtil instace;
+    private static EsUtil instace;
     // 创建私有对象
     private static TransportClient client;
 
-    public static com.example.cmdisearch.search.base.EsUtil getInstance() {
+    public static EsUtil getInstance() {
         if (instace == null) {
-            instace = new com.example.cmdisearch.search.base.EsUtil();
+            instace = new EsUtil();
         }
         return instace;
     }
@@ -225,8 +224,3 @@ public class EsUtil {
     }
 
 }
-
-
-
-
-
