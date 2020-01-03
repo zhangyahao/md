@@ -3,6 +3,7 @@ package util;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 /**
  * @program: amos-cirs
@@ -12,9 +13,10 @@ import java.time.temporal.ChronoUnit;
  **/
 public class DateUtil {
     private static String DATE_FORMAT_DATETIME = "yyyy-MM-dd";
+    private static DateTimeFormatter Dateformatter = DateTimeFormatter.ofPattern(DATE_FORMAT_DATETIME);
+
     private static String LOCALDATE_FORMAT_DATETIME = "yyyy-MM-dd HH:mm:ss";
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern(LOCALDATE_FORMAT_DATETIME);
-    private static DateTimeFormatter Dateformatter = DateTimeFormatter.ofPattern(DATE_FORMAT_DATETIME);
     private static String LOCALTIME_FORMAT_DATETIME = "HH:mm:ss";
 
     /**
@@ -170,6 +172,15 @@ public class DateUtil {
       LocalDate end = LocalDate.parse(endDate, Dateformatter);
       return end.toEpochDay() - start.toEpochDay();
 //      return ChronoUnit.DAYS.between(start, end);
+    }
+
+
+    /**
+     * 转为数据库中支持的  date类型
+     */
+    public static Date conversionDate(String s) {
+        LocalDateTime localDateTime = LocalDateTime.parse(s, Dateformatter);
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 
 }
