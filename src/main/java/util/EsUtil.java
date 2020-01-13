@@ -8,10 +8,12 @@ import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
+import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -115,8 +117,10 @@ public class EsUtil {
             bulkRequestBuilder.add(indexRequestBuilder);
             actionFlag = true;
         }
-        //删除es中以存在的重复数据
-        this.deleRepeat(client, esSet, dbIdSet, index, type);
+        //删除es中以存在的重复数据   如果es数据不是很多
+        if (esSet != null) {
+            this.deleRepeat(client, esSet, dbIdSet, index, type);
+        }
         if (actionFlag) {
             BulkResponse bulkItemResponse = bulkRequestBuilder.execute().actionGet();
             if (bulkItemResponse.hasFailures()) {
@@ -131,7 +135,7 @@ public class EsUtil {
     /**
      * 删除重复数据
      */
-    public void deleRepeat( Client client,HashSet<String> esSet, HashSet<String> dbSet, String index, String type) {
+    public void deleRepeat(Client client, HashSet<String> esSet, HashSet<String> dbSet, String index, String type) {
 
         if (esSet != null) {
             for (String s : esSet) {
@@ -145,7 +149,8 @@ public class EsUtil {
     /**
      * 对es操作 增量或者删除
      */
-    public void incrementIndex(String flag, String ids, String operateType, String index, String type, List<Map<String, Object>> mapList) {
+    public void incrementIndex(String flag, String ids, String operateType, String index, String type,
+                               List<Map<String, Object>> mapList) {
         Client client = this.getClient();
         if (operateType.equals("edit")) {
             BulkRequestBuilder bulkRequest = client.prepareBulk();
@@ -221,6 +226,50 @@ public class EsUtil {
         }
         client.close();
 
+    }
+
+    /**
+     * 使用游标获取全部id  数量大时使用
+     *
+     * @return
+     */
+    public HashSet<String> getAllID(String index, String type) {
+        client = this.getClient();
+        HashSet<String> idSet = new HashSet<>();
+        this.getClient();
+        QueryBuilder qb = QueryBuilders.matchAllQuery();
+        SearchResponse response = client.prepareSearch(index).setTypes(type)
+                                        .setQuery(qb)
+                                        .setFrom(0).setSize(10000)
+                                        .setFetchSource(index, null)
+                                        .setScroll(TimeValue.timeValueMinutes(3))
+                                        .setExplain(true).execute().actionGet();
+        SearchHits hits = response.getHits();
+        if (hits.getTotalHits() > 0) {
+            for (SearchHit hitFields : hits.getHits()) {
+                idSet.add(hitFields.getId());
+            }
+        }
+        String scrollId = response.getScrollId();
+        //循环获取后边所有数据
+        SearchResponse responseScroll;
+        SearchHits hitsScroll;
+        while (true) {
+            responseScroll = client
+                    .prepareSearchScroll(scrollId).setScroll(TimeValue.timeValueMinutes(2)).get();
+            //处理所有数据
+            hitsScroll = responseScroll.getHits();
+            if (hitsScroll.getTotalHits() > 0) {
+                for (SearchHit hitFields : hitsScroll.getHits()) {
+                    idSet.add(hitFields.getId());
+                }
+            } else {
+                break;
+            }
+            //重新获取scrollId
+            scrollId = responseScroll.getScrollId();
+        }
+        return idSet;
     }
 
 }
