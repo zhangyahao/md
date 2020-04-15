@@ -36,7 +36,7 @@
     |boost	|字段级别的助推，默认值是1，定义了字段在文档中的重要性/权重|	1|
     |coerce|	尝试将字符串转换为数值，如果字段类型是整数，那么将小数取整	|true|
     |copy_to	|该属性指定一个字段名称，ElasticSearch引擎将当前字段的值复制到该属性指定的字段中|	无|
-    |doc_values	|文档值是存储在硬盘上的索引时（indexing time）数据结构，<br>对于index:"not_analyzed"字段，默认值是true，analyzed string字段不支持文档值;||	 
+    |doc_values	|文档值是存储在硬盘上的索引时（indexing time）数据结构，  对于index:"not_analyzed"字段，默认值是true，analyzed keyword字段不支持文档值;||	 
     |dynamic	|能够动态的增加自动，可对index，单个对象设置|	true|
     |enabled	|搜索开关，设置为false后，保存数据但是不可检索|	true|
     |fielddata	|字段数据是存储在内存中的查询时（querying time）数据结构，只支持analyzed string字段|	| 
