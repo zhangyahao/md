@@ -57,7 +57,7 @@
                 self().add(addDTO);
             }
         
-            private UserService self() {
+            private UserService self() {    
                 return (UserService) AopContext.currentProxy();
             }
         
