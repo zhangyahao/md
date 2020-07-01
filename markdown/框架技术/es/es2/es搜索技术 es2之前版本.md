@@ -33,7 +33,7 @@
                 中华、华人、人民共和国、人民、人、民、共和国、共和、和、国国、国歌」，会穷尽各种可能的组合； 
                     ik_smart：会将文本做最粗粒度的拆分，例如「中华人民共和国国歌」会被拆分为「中华人民共和国、国歌」；
      8.   multi-field： 多域类型允许你对同一个值以映射的方式定义成多个基本类型  
-     9.   nested：该属性在索引中需要创建一个类似list集合时使用,**此属性在es2后不适用**<br>
+     9.   nested：该属性在索引中需要创建一个类似list集合时使用,**此属性在es2后不适用**   
             ````aidl
              .startObject("properties")
              	 .startObject("xxxx")
@@ -152,4 +152,4 @@
             删除api在同一个节点上执行时（在一个分片中执行一个api会分配到同一个服务器上），删除api允许执行前设置线程模式<br>
             （operationThreaded选项），operationThreaded这个选项是使这个操作在另外一个线程中执行，或在一个正在请求的线程<br>
             （假设这个api仍是异步的）中执行。默认的话operationThreaded会设置成true，这意味着这个操作将在一个不同的线程中执行
-6.  [其他的一些操作](https://github.com/zhangyahao/md/blob/master/src/main/java/util/EsUtil.java)           
+6.  [其他的一些操作]()           https://github.com/zhangyahao/md/blob/master/src/main/java/util/EsUtil.java

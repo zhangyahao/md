@@ -1,4 +1,4 @@
-package com.example.cmdisearch.search.base;
+package util;
 
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequestBuilder;
