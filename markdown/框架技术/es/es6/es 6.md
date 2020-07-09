@@ -56,7 +56,14 @@
     |store	|指定是否将字段的原始值写入索引，默认值是no，字段值被分析，能够被搜索，<br>但是，字段值不会存储，这意味着，该字段能够被查询，但是不会存储字段的原始值。|	no|
     |term_vector|	词条向量	|| 
 
-    1. analyzer，用于 text 类型字段，分词产生多个 token，
+    1. analyzer，用于 text 类型字段，分词产生多个 token。  
+       1. Standard Analyzer：默认的分词器，按照词切分，并作大写转小写处理
+       2. Simple Analyzer：按照非字母切分（符号被过滤），并作大写转小写处
+       3. Stop Anayzer：停用词（the、is）切分，并作大写转小写处理
+       4. Whitespace Anayzer：空格切分，不做大写转小写处理
+       5. IK：中文分词器，需要插件安装
+       6. ICU：国际化的分词器，需要插件安装
+       7. jieba：时下流行的一个中文分词器。
     2. normalizer , normalizer 用于 keyword 类型，只产生一个 token（整个字段的值作为一个token，而不是分词拆分为多个token）也就是不分词   
     2. boost
     3. dynamic,是否允许新增字段在最外层使用。属性有`true`，`false `不允许自动新增字段，但是文档可以正常写入，但无法对新增字段进行查询等操作，`strict ` 文档不能写入，报错
