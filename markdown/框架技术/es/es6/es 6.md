@@ -57,10 +57,10 @@
     |term_vector|	词条向量	|| 
 
     1. analyzer，用于 text 类型字段，分词产生多个 token。  
-       1. Standard Analyzer：默认的分词器，按照词切分，并作大写转小写处理
-       2. Simple Analyzer：按照非字母切分（符号被过滤），并作大写转小写处
-       3. Stop Anayzer：停用词（the、is）切分，并作大写转小写处理
-       4. Whitespace Anayzer：空格切分，不做大写转小写处理
+       1. Standard ：默认的分词器，按照词切分，并作大写转小写处理
+       2. Simple：按照非字母切分（符号被过滤），并作大写转小写处
+       3. Stop ：停用词（the、is）切分，并作大写转小写处理
+       4. Whitespace ：空格切分，不做大写转小写处理
        5. IK：中文分词器，需要插件安装
        6. ICU：国际化的分词器，需要插件安装
        7. jieba：时下流行的一个中文分词器。
