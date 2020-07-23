@@ -19,6 +19,7 @@
     </parent>
 
 
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -55,6 +56,19 @@
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
             <version>2.2.0.RELEASE</version>
+        </dependency>
+        <!--lombok插件 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+
+        <!--https://github.com/oshi/oshi。系统监控工具-->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-json</artifactId>
+            <version>3.6.1</version>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
