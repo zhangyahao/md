@@ -27,3 +27,41 @@
 6.    其它检查      
       1.   `@Email`：被注释的元素必须是电子邮箱地址。
       2.   `@Pattern(value)`：被注释的元素必须符合指定的正则表达式。
+7.  需添加一个特定得异常全局处理来处理参数校验  
+     ````java
+            @RestControllerAdvice
+            @ResponseBody
+            public class CommonExceptionHandler {
+            
+                @ExceptionHandler({MethodArgumentNotValidException.class})
+                @ResponseStatus(HttpStatus.OK)
+            
+                public ResponseEntity<JsonMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+                    BindingResult bindingResult = ex.getBindingResult();
+                    StringBuilder sb = new StringBuilder("校验失败:");
+                    for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                        sb.append(fieldError.getField()).append("：").append(fieldError.getDefaultMessage()).append(", ");
+                    }
+                    String msg = sb.toString();
+                    return ResultInfo.dealWithResult(msg);
+                }
+            
+                @ExceptionHandler({ConstraintViolationException.class})
+                @ResponseStatus(HttpStatus.OK)
+                public ResponseEntity<JsonMessage> handleConstraintViolationException(ConstraintViolationException ex) {
+                    return ResultInfo.dealWithResult(HTTP_STATE_CODE_210);
+                }
+            }
+     ````
+    同时，还需添加pom  
+     ```aidl
+             <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-aop</artifactId>
+              </dependency>
+     ```
+    以及在启动类上添加注解
+    ```aidl
+        @EnableAspectJAutoProxy(exposeProxy = true)
+    ```
+    
