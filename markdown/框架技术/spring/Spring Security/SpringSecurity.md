@@ -10,29 +10,31 @@
         或者直接使用注解`@PreAuthorize("hasRole('ROLE_USER')")`
         
     2.   **_3.2开始支持注解_**
-    3.   创建过滤器，负责所有的安全操作，例如url，验证用户名和密码等等.
-           
-                import org.springframework.beans.factory.annotation.Autowired;
+    3.   创建过滤器，负责所有的安全操作，例如url，验证用户名和密码等等.  
+         ```java
+             import org.springframework.beans.factory.annotation.Autowired;
+                            
+             import org.springframework.context.annotation.*;
+             import org.springframework.security.config.annotation.authentication.builders.*;
+             import org.springframework.security.config.annotation.web.configuration.*;
+             
+             @EnableWebSecurity
+             public class SecurityConfig extends WebSecurityConfigurerAdapter {
+             
+                 @Autowired
+                 public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+                     auth.inMemoryAuthentication()
+                         .withUser("user").password("password").roles("USER");// 配置用户
+                 }
+                            }
+                            
+
+         ```
+         方法名不重要，重要的是只能在一个被@EnableWebSecurity，@EnableGlobalMethodSecurity或者
+          @EnableGlobalAuthentication 注解的类中配置AuthenticationManagerBuilder。
                 
-                import org.springframework.context.annotation.*;
-                import org.springframework.security.config.annotation.authentication.builders.*;
-                import org.springframework.security.config.annotation.web.configuration.*;
-                
-                @EnableWebSecurity
-                public class SecurityConfig extends WebSecurityConfigurerAdapter {
-                
-                    @Autowired
-                    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-                        auth.inMemoryAuthentication()
-                            .withUser("user").password("password").roles("USER");// 配置用户
-                    }
-                }
-                
-           
-                方法名不重要，重要的是只能在一个被@EnableWebSecurity，@EnableGlobalMethodSecurity或者
-                @EnableGlobalAuthentication 注解的类中配置AuthenticationManagerBuilder。
-                
-           在其中虽然没有写太多的配置，但其内部实现了很多的功能。比如       
+           在其中虽然没有写太多的配置，但其内部实现了很多的功能。比如  
+                 
                 1.  在你的应用程序中对每个URL进行验证
                 2.  为你生成一个登陆表单
                 3.  允许用户使用用户名user和密码password使用验证表单进行验证。
@@ -191,7 +193,7 @@
          }
 
          ```
-    11. 对于方法安全的支持 只能加在`@Configuration` 的方法上 (个人感觉意义不大)
+   
     
             
 
