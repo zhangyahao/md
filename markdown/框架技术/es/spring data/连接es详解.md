@@ -31,6 +31,33 @@
         }
 
     ```
+3.  接口方式连接    
+     适合面向对象操作es。
+     1.   需要添加配置
+          ```yaml
+               data:
+                  elasticsearch:
+                    cluster-name: elasticsearch
+                    cluster-nodes: 127.0.0.1:9300
+          ```
+     2.   添加配置类     
+           ```java
+              @Configuration
+              public class ESConfig {
+                  @PostConstruct
+                  public void init(){
+                      System.setProperty("es.set.netty.runtime.available.processors","false");
+                  }
+              }
+           ```
+     2.    添加接口
+           ```java
+               public interface EmpRepository extends ElasticsearchRepository<Emp, String> {
+               
+               }
+           ```
+           注：
+            1.  名称随意，只需继承`ElasticsearchRepository`即可
 3.  详情
-    1.     RestHighLevelClient，此方式比较适合复杂查询。普通操作也可以使用。
-    
+    1.     RestHighLevelClient，此方式比较适合复杂查询。普通操作也可以使用。更像是java原生操作es
+    2.     接口操作更简单。
