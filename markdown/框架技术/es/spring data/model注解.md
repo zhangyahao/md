@@ -1,5 +1,5 @@
 1. ` @Document`  
-    在项目启动后会减产是否含有此注解标识的`index`，若没有就创建。有会出错，因此用在第一次创建`index`时。
+    `index`，属性。
     ````text
        @Document(indexName = "xxx", type = "xxx", shards = 1, replicas = 1)
     ````
