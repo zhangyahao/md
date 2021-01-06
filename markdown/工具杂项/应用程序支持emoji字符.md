@@ -1,5 +1,5 @@
 1. 数据库要求 
-    mysql<br>
+    mysql   
      需要升级到5.5.3或更新的版本，然后，把默认编码从原来的utf8改为utf8mb4，在my.cnf或者my.ini配置文件中修改如下：
      ```aidl
        [client]
