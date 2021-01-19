@@ -20,4 +20,5 @@
     }
 
 ```
-2.  使用注解  `RestController `
+2.  使用注解  `RestController `   
+3.  ***jsonp只支持get方法*** 
