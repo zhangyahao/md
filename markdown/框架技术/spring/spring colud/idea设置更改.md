@@ -1,4 +1,4 @@
-在 `.idea` 文件夹中 `workspace.xml`, 查找 `RunDashboard`,在该标签下添加:   
+x在 `.idea` 文件夹中 `workspace.xml`, 查找 `RunDashboard`,在该标签下添加:   
 ```xml
 <option name="configurationTypes">
   <set>
