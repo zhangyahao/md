@@ -1,5 +1,5 @@
 1.  TransportClient  
-    此连接方式在es2 之后官方已不建议使用。至es7彻底废弃。 连接9300 端口。
+    此连接方式在es2 之后官方已不建议使用。至es8彻底废弃。 连接9300 端口。
 2.  RestHighLevelClient     
     spring data 提供了RestHighLevelClient 连接方式。 连接9200端口。 支持对低版本为 6.3以上
     ```java
