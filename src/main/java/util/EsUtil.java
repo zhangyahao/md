@@ -206,7 +206,7 @@ public class EsUtil {
                                                         .prepareCreate(indexName.toLowerCase())
                                                         .setSettings(settings).addMapping(type, mapping)
                                                         .execute().actionGet();
-        return createIndexResponse.isAcknowledged() ? true : false;
+        return createIndexResponse.isAcknowledged();
     }
 
     /**
