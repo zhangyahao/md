@@ -2,7 +2,7 @@
      1.   声明式校验  
        Spring Validation 仅对 @Validated 注解，实现声明式校验。
      2.   分组校验  
-       Bean Validation 提供的 @Valid 注解，因为没有分组校验的属性，所以无法提供分组校验。只能使用 ``@Validated` 注解。
+       Bean Validation 提供的 @Valid 注解，因为没有分组校验的属性，所以无法提供分组校验。只能使用 `@Validated` 注解。
      3.   嵌套校验  
         @Valid 注解的地方，多了【成员变量】。这就导致，如果有嵌套对象的时候，只能使用 @Valid 注解。例如说：    
        ```java
