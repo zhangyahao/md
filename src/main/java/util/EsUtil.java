@@ -37,16 +37,21 @@ public class EsUtil {
     public static final String CLUSTERNAME = "searchguard_demo";
     private static final String HOST = "10.10.10.10";
     private final static int PORT = 9300;
-    private static EsUtil instace;
+    private EsUtil() {
+
+    }
+    //匿名内部类单例
+    private static class SingleTonHoler {
+        private static EsUtil INSTANCE = new EsUtil();
+    }
+
+    public static EsUtil getInstance() {
+        return SingleTonHoler.INSTANCE;
+    }
     // 创建私有对象
     private static TransportClient client;
 
-    public static EsUtil getInstance() {
-        if (instace == null) {
-            instace = new EsUtil();
-        }
-        return instace;
-    }
+
 
     /**
      * 获取实例
